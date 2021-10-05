@@ -1,17 +1,11 @@
 
-const routerBase =
-process.env.DEPLOY_ENV === 'GH_PAGES'
-  ? {
-      router: {
-        base: '/tsmcdododo.github.io/'
-      }
-    }
-  : {}
 export default {
-  ...routerBase,
+
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
-
+  router: {
+    base: '/tsmcdododo.github.io/'
+  },
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
