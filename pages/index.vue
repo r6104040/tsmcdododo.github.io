@@ -1,12 +1,22 @@
 <template>
   <div>
-    {{ localdata }}
-    <audio src="https://raw.githubusercontent.com/r6104040/tsmcdododo.github.io/main/static/images/sunsun.mp3" controls></audio>
-    <div v-for='date of date' :key="date.class" >
-                <p>{{date.text}}</p>
-          {{ getImgUrl(date.src) }}
-          
-    </div>
+    <audio id="myaudi" :src="mysrc" controls></audio>
+    <el-select v-model="myselectdada" placeholder="選你的音樂" @change="searccc()" >
+    <el-option
+      v-for="item in localdata"
+      :key="item.id"
+      :label="item.pathShort"
+      :value="item.pathShort"
+      >
+    </el-option>
+  </el-select>
+  <div>
+   現有歌單(ㄏ)
+
+  </div>
+  <div v-for='(mpdata, index) of localdata' :key="index" >
+       <p>{{index+1 }} . {{ mpdata.pathShort}} </p>
+   </div>
     
   </div>
 </template>
@@ -15,60 +25,27 @@
 export default {
     data() {
         return {
-          date: [
-            {class: '1',  src: '1.jpg', text : 'Title 1'},
-            {class: '2', src: '1.jpg',  text : 'Title 2'},
-            {class: '3', src: '1.jpg',  text : 'Title 3'}
-            ],
-            ddad: [],
-            localdata: []
+          myselectdada: '',
+          localdata: [],
+          mysrc: require(`../static/images/sunsun.mp4`)
         }
     },
     mounted() {
-    this.importAll(require.context('../static/images/', true, /\.jpg$/));
+    this.importAll(require.context('../static/images/', true, /\.(mp4)$/));// png|svg|jpg|
+    const gfg = document.getElementById("Test_Audio"); 
+
+    
 
     },
     methods: {
       importAll(r) {
-      r.keys().forEach(key => (this.localdata.push({ pathLong: r(key), pathShort: key })));
-    },
-        getImgUrl(pic) {
-            return require('../static/images/' + pic)
-        },
-         getCountry(){
-            //  讀取radio的值
-            var form = document.getElementById("form_name");
-            for(var i=0; i<form.language.length;i++){
-                if(form.language[i].checked){
-                    var language = form.language[i].value;
-                    alert(language);
-                }
-            }
-            //  讀取select的值
-            var country = form.country.value;
-            alert(country);
-        },
-//  寫入內容到HTML元素中
-        //  寫入內容到INPUT
-        WriteValue(){                              
-            document.getElementById("input").value="12345";
-        },
-        //  寫入內容到DIV或SPAN
-        WriteOnScreen(){                             
-            document.getElementById("screen").innerHTML = "2+3"
-        },
+      r.keys().forEach(key => (this.localdata.push({ pathShort: key.replaceAll("./","") })));
+      // r.keys().forEach(key => (this.localdata.push({ pathLong: r(key), pathShort: key.replaceAll("./","") })));
+      },
+      searccc () {
+        this.mysrc = require(`../static/images/${this.myselectdada}`)
 
-//  讀取HTML元素
-         //讀取INPUT的內容
-        ShowValue(){                               
-            var v = document.getElementById("input").value ;
-            alert(v);
-        },
-         //讀取DIV或SPAN的內容
-        ShowOnScreen(){                            
-            var v = document.getElementById("screen")
-            alert(v.innerHTML);
-        }
+      }
     }
   }
 </script>
