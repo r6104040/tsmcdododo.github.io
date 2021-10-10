@@ -1,6 +1,7 @@
 export default {
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
-  ssr:false,
+  ssr: false,
+  telemetry: true,
   target: 'static',
   router: {
     base: '/tsmcdododo.github.io/'
@@ -25,7 +26,9 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    '~/plugins/element-ui'
+    '~/plugins/element-ui',
+    '@/plugins/echarts',
+    '~/plugins/axios'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -34,21 +37,48 @@ export default {
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
   ],
-
+  // Optional
+  dayjs: {
+    locales: ['zh-TW'],
+    defaultLocale: 'zh-TW',
+    defaultTimeZone: 'Asia/Taipei',
+    plugins: [
+      'utc', // import 'dayjs/plugin/utc'
+      'timezone' // import 'dayjs/plugin/timezone'
+    ] // Your Day.js plugin
+  },
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
+    '@nuxtjs/axios',
+    '@nuxtjs/dayjs',
+    '@nuxtjs/proxy',
+    // 請求代理配置，解決跨域
+    '@gauseen/nuxt-proxy'
   ],
+  axios: {
+    proxy: true,
+    // prefix: '/api', // baseURL
+    credentials: true
+  },
+  proxyTable: {
+    '/api': {
+      target: 'http://localhost:3000', // 代理地址
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api': '' // 将 /api 替换掉
+      }
+    }
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-    extend: function (config, {isDev, isClient}) {
-
+    extend: function (config, { isDev, isClient }) {
       config.node = {
 
-          fs: "empty"
-      };
-  }
+        fs: 'empty'
+      }
+    }
   }
 }
