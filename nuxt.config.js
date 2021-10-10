@@ -64,7 +64,7 @@ export default {
   },
   proxyTable: {
     '/api': {
-      target: 'http://localhost:3000', // 代理地址
+      target: 'localhost:3000/', // 代理地址
       changeOrigin: true,
       pathRewrite: {
         '^/api': '' // 将 /api 替换掉

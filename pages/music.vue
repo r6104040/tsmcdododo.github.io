@@ -1,27 +1,46 @@
 <template>
   <div>
     <audio
-      src="https://derekqaq.github.io/music/%E4%BD%A0%E7%9A%84%E8%A1%8C%E6%9D%8E.mp3"
-      autoplay
+      id="myaudi"
+      src="https://drive.google.com/uc?export=download&id=1zdkZRPx4Tq3XZ2oy17dZmWDG3dJaj0jk"
       controls
-    />
-    <iframe
-      width="1520"
-      height="581"
-      src="https://www.youtube.com/embed/N9yS6lll1rk?list=RDN9yS6lll1rk"
-      title="YouTube video player"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
     />
   </div>
 </template>
 
 <script>
-
+import cheerio from 'cheerio'
 export default {
+  async asyncData ({ $axios }) {
+    const ip = await $axios.$get('http://icanhazip.com')
+    return { ip }
+  },
   data () {
     return {
+      mygogoro: '',
+      table_tr: [],
+      resilt: [],
+      url: 'https://drive.google.com/drive/folders/1ejTJ9dRo885UsOUXCOtBTKNKHsqBepcr'
+    }
+  },
+  created () {
+  },
+  async mounted () {
+    this.fetchUrl()
+  },
+  methods: {
+    fetchUrl () {
+      this.$axios
+        .get('https://cors-anywhere.herokuapp.com/https://drive.google.com/drive/folders/1ejTJ9dRo885UsOUXCOtBTKNKHsqBepcr')
+        .then(res => {
+          const $ = cheerio.load(res.data) // PolqHc sd-ph
+          $('.WYuW0e ').each((index, element) => {
+            // 將取得的標題與ID資料用二維陣列方式存至playlist
+            const myarrtemp = $(element).attr('data-id')
+            // https://drive.google.com/uc?export=download&id= (後面寫ID)
+            this.resilt.push(myarrtemp)
+          })
+        })
     }
   }
 }

@@ -2,7 +2,7 @@
   <div>
     <audio
       id="myaudi"
-      :src="mysrc"
+      :src="tempSRT"
       controls
     />
     <el-select
@@ -11,40 +11,45 @@
       @change="searccc()"
     >
       <el-option
-        v-for="item in localdata"
+        v-for="item in totalList"
         :key="item.id"
-        :label="item.pathShort"
-        :value="item.pathShort"
+        :label="item.name"
+        :value="item.url"
       />
     </el-select>
     <el-button @click="getmusicAPI()">
-      按我
+      刷新
     </el-button>
     <div>
       現有歌單(ㄏ)
     </div>
     <div
-      v-for="(mpdata, index) of localdata"
+      v-for="(mpdata, index) of totalList"
       :key="index"
     >
-      <p>{{ index+1 }} . {{ mpdata.pathShort }} </p>
+      <p>{{ index+1 }} . {{ mpdata.name }} </p>
     </div>
   </div>
 </template>
 
 <script>
-
+import cheerio from 'cheerio'
 export default {
   data () {
     return {
       myselectdada: '',
       localdata: [],
       mysrc: require('../static/images/sunsun.mp4'),
-      musictemp: []
+      musictemp: [], // https://drive.google.com/uc?export=download&id=  你的YT
+      listArr: [],
+      listName: [],
+      totalList: [],
+      tempSRT: ''
     }
   },
   mounted () {
     this.importAll(require.context('../static/images/', true, /\.(mp4)$/))// png|svg|jpg|
+    this.getmusicAPI()
   },
   methods: {
     importAll (r) {
@@ -52,10 +57,33 @@ export default {
       // r.keys().forEach(key => (this.localdata.push({ pathLong: r(key), pathShort: key.replaceAll("./","") })));
     },
     searccc () {
-      this.mysrc = require(`../static/images/${this.myselectdada}`)
+      this.tempSRT = 'https://drive.google.com/uc?export=download&id=' + this.myselectdada
+      //  this.mysrc = require(`../static/images/${this.myselectdada}`) 本地用
     },
     async getmusicAPI () {
-      // this.musictemp = await this.$axios.$get('https://datacenter.taichung.gov.tw/swagger/OpenData/3cad518b-23d6-4ac1-a6dc-4cf7ae8b52cb')
+      this.totalList = []
+      this.listArr = []
+      this.listName = []
+      this.$axios
+        .get('https://cors-anywhere.herokuapp.com/https://drive.google.com/drive/folders/1ejTJ9dRo885UsOUXCOtBTKNKHsqBepcr')
+        .then(res => {
+          const $ = cheerio.load(res.data) // PolqHc sd-ph
+          // 找到URL
+          $('.WYuW0e ').each((index, element) => {
+            const myarrtemp = $(element).attr('data-id')
+            this.listArr.push(myarrtemp)
+          })
+          // 找到音樂名稱
+          $('.Q5txwe ').each((index, element) => {
+            const mynametemp = $(element).attr('data-tooltip')
+            this.listName.push(mynametemp)
+          })
+          let i = 0
+          while (i < this.listName.length) {
+            this.totalList.push({ name: this.listName[i], url: this.listArr[i] })
+            i++
+          }
+        })
     }
   }
 }
