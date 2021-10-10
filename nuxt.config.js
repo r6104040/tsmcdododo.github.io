@@ -58,7 +58,7 @@ export default {
     '@gauseen/nuxt-proxy'
   ],
   axios: {
-    proxy: true,
+    proxy: false,
     // prefix: '/api', // baseURL
     credentials: true
   },
