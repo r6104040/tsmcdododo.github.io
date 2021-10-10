@@ -62,8 +62,11 @@ export default {
       this.totalList = []
       this.listArr = []
       this.listName = []
-      this.$axios
-        .get('https://cors-anywhere.herokuapp.com/https://drive.google.com/drive/folders/1ejTJ9dRo885UsOUXCOtBTKNKHsqBepcr')
+      this.$axios.get('https://nameless-island-05514.herokuapp.com/https://drive.google.com/drive/folders/1ejTJ9dRo885UsOUXCOtBTKNKHsqBepcr', {
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
         .then(res => {
           const $ = cheerio.load(res.data) // PolqHc sd-ph
           // 找到URL
