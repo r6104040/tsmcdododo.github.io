@@ -1,0 +1,16 @@
+[
+  {
+    "name": "music",
+    "path": "/music",
+    "component": "C:\\\\Users\\\\LinPapa\\\\Desktop\\\\youcantcatchme\\\\pages\\\\music.vue",
+    "chunkName": "pages/music",
+    "_name": "_94dd5566"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "C:\\\\Users\\\\LinPapa\\\\Desktop\\\\youcantcatchme\\\\pages\\\\index.vue",
+    "chunkName": "pages/index",
+    "_name": "_6e2e717a"
+  }
+]
