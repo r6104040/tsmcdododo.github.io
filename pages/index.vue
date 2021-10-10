@@ -39,8 +39,6 @@ export default {
     return {
       myselectdada: '',
       localdata: [],
-      mysrc: require('../static/images/sunsun.mp4'),
-      musictemp: [], // https://drive.google.com/uc?export=download&id=  你的YT
       listArr: [],
       listName: [],
       totalList: [],
@@ -48,7 +46,6 @@ export default {
     }
   },
   mounted () {
-    this.importAll(require.context('../static/images/', true, /\.(mp4)$/))// png|svg|jpg|
     this.getmusicAPI()
   },
   methods: {
@@ -59,6 +56,7 @@ export default {
     searccc () {
       this.tempSRT = 'https://drive.google.com/uc?export=download&id=' + this.myselectdada
       //  this.mysrc = require(`../static/images/${this.myselectdada}`) 本地用
+      // mysrc: require('../static/images/sunsun.mp4'),
     },
     async getmusicAPI () {
       this.totalList = []
