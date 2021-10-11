@@ -2,8 +2,8 @@
 
 ## 目的
 
-透過GitHub.io架設靜態"音樂"網站，採用全前端，無後端  
-並用API撈GOOGLE雲端硬碟資料為例：
+透過GitHub.io架設靜態"音樂"網站，採用全前端，無後端並用API撈GOOGLE雲端硬碟資料  
+下面的代碼純技術討論。真心不懂就載下來，直跳到Step3吧
 
 ### step1. 將GOOGLE雲端的音樂URL處理成可以直接下載的URL
  - 音樂網址：https://drive.google.com/file/d/12uGuymEjRqvyFVAVLpjoe-IEkGq7i0WH/view?usp=sharing
@@ -34,14 +34,20 @@ const playlist = []
 // 取得播放清單網頁原始碼，快速版(若該元素眾多，請查看cheerio使用說明，進階篩選)
 axios.get('https://drive.google.com/drive/folders/1ejTJ9dRo885UsOUXCOtBTKNKHsqBepcr').then((res) => {
   const $ = cheerio.load(res.data) // 本行res.data為HTML，使用cheerio.load來載入HTML資料
-  $('.WYuW0e ').each((index, element) => {  // 直接找到你要抓的Class  
+  $('.WYuW0e ').each((index, element) => {  // 直接找到你要抓的Class 雲端硬碟我想要的元素：data-id=音樂分享連結，data-tooltip=檔名
   // <div data-target="doc" draggable="true" jsaction="I6mUue:Ppnscc;Cej8pc:Krrt9b;Zhs91b:UNwd5e;dAEAFb:p4DfEc;MUmfBf:VWAsNe;u4juXc:E8sp8c;EV6U7c:crY0ee;rcuQ6b:uaW3He"jscontroller="LPQUTd" data-id="1OBNILLO2WOTQqhoKi0VnSnGC7ycQTFP6" class="WYuW0e">
     const myarrtemp = $(element).attr('data-id') // 若要抓1OBNILLO2WOTQqhoKi0VnSnGC7ycQTFP6，則$(element).attr('data-id')
-    console.log(myarrtemp)
+    playlist.push(myarrtemp)// 每筆資料pusch進array
+    console.log(myarrtemp)// 檢查每筆資料，隨便啦
   })
+  console.log(playlist)// 檢查array輸出
 })
 ```
-雲端硬碟我想要的元素：data-id=音樂分享連結，data-tooltip=檔名
+  現在所有資料都存進playlist裡面，然後就是數據處理了，後面應該不用我交了吧XD  
+  字串相加"https://drive.google.com/uc?export=download&id=" + playlist[0]，用for或while重新整理Array
+  或者我的專案，用select組件，觸發function再相加，都可以。
+  
+
 
 ### step3. 開發或實裝Github.io時，遇上CROS跨域問題
 因網站為靜態式，且使用GitHub.io架設，無法透過後端伺服器進行跨域，純前端若跨網域抓取，會出現CORS問題  
