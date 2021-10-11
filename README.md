@@ -5,7 +5,7 @@
 透過GitHub.io架設靜態"音樂"網站，採用全前端，無後端並用API撈GOOGLE雲端硬碟資料  
 下面的代碼純技術討論。真心不懂就載下來，直跳到Step3吧
 ## 未修正BUG
-1.電腦版axios跟手機板得到的res不一樣，現階段只能使用電腦版，待修正
+1.電腦版axios跟手機版得到的res不一樣，現階段只能使用電腦版，待修正
 
 ### step1. 將GOOGLE雲端的音樂URL處理成可以直接下載的URL
  - 音樂網址：https://drive.google.com/file/d/12uGuymEjRqvyFVAVLpjoe-IEkGq7i0WH/view?usp=sharing
