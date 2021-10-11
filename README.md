@@ -2,8 +2,8 @@
 
 ## 目的
 
-透過GitHub.io架設靜態"音樂"網站，採用全前端，無後端
-以GOOGLE雲端硬碟資料為例：
+透過GitHub.io架設靜態"音樂"網站，採用全前端，無後端  
+並用API撈GOOGLE雲端硬碟資料為例：
 
 ### step1. 將GOOGLE雲端的音樂URL處理成可以直接下載的URL
  - 音樂網址：https://drive.google.com/file/d/12uGuymEjRqvyFVAVLpjoe-IEkGq7i0WH/view?usp=sharing
@@ -41,12 +41,20 @@ axios.get('https://drive.google.com/drive/folders/1ejTJ9dRo885UsOUXCOtBTKNKHsqBe
   })
 })
 ```
-以雲端硬碟為例：data-id=音樂分享連結，data-tooltip=檔名
+雲端硬碟我想要的元素：data-id=音樂分享連結，data-tooltip=檔名
 
-
-因網站為靜態式，且使用GitHub.io架設，無法透過後端伺服器進行跨域，純前端若跨網域抓取，會出現CORS問題
-憤而使用cors-anywhere組件，與申請heroku網址，代理跨域問題。
-
+### step3. 開發或實裝Github.io時，遇上CROS跨域問題
+因網站為靜態式，且使用GitHub.io架設，無法透過後端伺服器進行跨域，純前端若跨網域抓取，會出現CORS問題  
+基本上只能透過代理的方式，除非你想自己架設一台24hr工作的後端伺服器(線上免費的夠用就好)  
+使用cors-anywhere組件，與申請heroku網址，代理跨域問題。  
+  heroku安裝教學：https://smlpoints.com/guide-heroku-build-your-cors-proxy-server.html  
+  我是看這篇，照做就ＯＫ，執行完git push heroku master之後，你會得到一段網址
+```javascript
+  //原本的API
+  this.$axios.get('https://drive.google.com/drive/folders/1ejTJ9dRo885UsOUXCOtBTKNKHsqBepcr'
+  //替換後的API
+  this.$axios.get('https://nameless-xxxxxx.herokuapp.com/https://drive.google.com/drive/folders/1ejTJ9dRo885UsOUXCOtBTKNKHsqBepcr'
+```
 # install dependencies
 $ npm install
 
