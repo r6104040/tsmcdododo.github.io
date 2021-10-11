@@ -3,6 +3,11 @@
 ## Build Setup
 
 ```bash
+以GOOGLE雲端硬碟為例：
+使用axios抓取HTML資料，cheerio篩選欲抓取目標
+因網站為靜態式，且使用GitHub.io架設，無後端伺服器，欲跨網欲抓取，會出現CORS問題
+憤而使用cors-anywhere組件，與申請heroku代理跨域問題。
+
 # install dependencies
 $ npm install
 
